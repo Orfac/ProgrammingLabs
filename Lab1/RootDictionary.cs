@@ -10,115 +10,82 @@ namespace Lab1
 
         public RootDictionary()
         {
-            this.RootGroups = new Dictionary<string, RootGroup>();
+            RootGroups = new Dictionary<string, RootGroup>();
         }
 
         public void Run()
         {
             Console.Write(">");
-            string word = Console.ReadLine();
-            while (word != "q")
+            string value;
+            while ((value = Console.ReadLine()) != "q")
             {
-                if (this.Contains(word))
+                if (value == "") { Console.Write(">"); continue; }
+                if (Contains(value))
                 {
-                    this.PrintCognateWords(word);
+                    PrintCognateWords(value);
                 }
                 else
                 {
                     Console.Write("Неизвестное слово. Хотите добавить его в словарь (y/n)?");
                     string ans = Console.ReadLine();
-                    if (ans == "y")
+                    if (ans.ToLower() == "y")
                     {
-                        this.Add(word);
+                        Word word = new Word(value); 
+                        Add(word);
                     }
                 }
                 Console.Write(">");
-                word = Console.ReadLine();
             }
         }
 
         public bool Contains(string word)
         {
-            foreach (var RootGroup in this.RootGroups)
+            foreach (var RootGroup in RootGroups)
             {
-                if (RootGroup.Value.Contains(word))
-                {
-                    return true;
-                }
+                if (RootGroup.Value.Contains(word)) return true;
             }
             return false;
         }
 
-        public bool Contains(Word word)
+        private bool ContainsRoot(string root)
         {
-            foreach (var RootGroup in this.RootGroups)
+            foreach (var RootGroup in RootGroups)
             {
-                if (RootGroup.Value.Contains(word))
-                {
-                    return true;
-                }
+                if (RootGroup.Value.Root == root) return true;
             }
             return false;
         }
 
-        private bool IsRootExist(string root)
+        private string GetRoot(string value)
         {
-            foreach (var RootGroup in this.RootGroups)
+            foreach (var RootGroup in RootGroups)
             {
-                if (RootGroup.Value.Root == root)
-                {
-                    return true;
-                }
+                if (RootGroup.Value.Contains(value)) return RootGroup.Value.Root;
             }
-            return false;
+            return null;
         }
 
-        public void Add(string word)
+        public void Add(Word NewWord)
         {
-            Word NewWord = new Word(word);
-            if (!IsRootExist(NewWord.Root))
-            {
-                this.RootGroups.Add(NewWord.Root, new RootGroup(NewWord.Root));
-            }
-            this.RootGroups[NewWord.Root].Add(NewWord);
-            Console.WriteLine("Слово " + word + " добавлено.");
+            if (!ContainsRoot(NewWord.Root)) RootGroups.Add(NewWord.Root, new RootGroup(NewWord.Root));
+            RootGroups[NewWord.Root].Add(NewWord);
+            Console.WriteLine("Слово " + NewWord.Value + " добавлено.");
         }
 
-        public string GetRoot(string word)
+        public void PrintCognateWords(string value)
         {
-            if (this.Contains(word))
-            {
-                foreach (var RootGroup in this.RootGroups)
-                {
-                    foreach (var w in RootGroup.Value.Words)
-                    {
-                        if (w.Value == word)
-                        {
-                            return w.Root;
-                        }
-                    }
-                }
-                return null;
-            }
-            else
-            {
-                return null;
-            }
-
-
-        }
-
-        public void PrintCognateWords(string word)
-        {
-            string root = this.GetRoot(word);
+            string root = GetRoot(value);
             if (root != null)
             {
-                this.RootGroups[root].PrintWords();
+                Console.WriteLine("Известные однокоренные слова: ");
+                foreach (var word in RootGroups[root].Words)
+                {
+                    Console.WriteLine(word.Value.ToString());
+                }
             }
 
         }
 
-
-
+        
     }
 }

@@ -1,68 +1,46 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Lab1
 {
     sealed class RootGroup
     {
-        public List<Word> Words;
+        public List<Word> Words { get; private set; }
         public string Root { get; private set; }
 
         public RootGroup(string root)
         {
-            this.Words = new List<Word>();
-            this.Root = root;
+            Words = new List<Word>();
+            Root = root;
         }
 
-        public void Add(Word word)
+        public void Add(Word value)
         {
-            try
+            if (value.Root != Root) return;
+            for (int i = 0; i < Words.Count; i++)
             {
-                if (word != null)
+                if (value.Morphemes.Count < Words[i].Morphemes.Count)
                 {
-                    for (int i = 0; i < Words.Count; i++)
-                    {
-                        if (Words[i].MorphemesCount > word.MorphemesCount)
-                        {
-                            Words.Insert(i, word);
-                            return;
-                        }
-                    }
-                    Words.Add(word);
+                    Words.Insert(i, value);
+                    return;
                 }
+                    
             }
-            catch (Exception)
-            {
-                Console.WriteLine("Не удалось выделить память, попробуйте позднее");
-                throw;
-            }
-
+            Words.Add(value);
+            
         }
 
-        public void PrintWords()
+        // Used to verify the presence of the word in the group
+        public bool Contains(string value)
         {
-            Console.WriteLine("Известные однокоренные слова");
-            foreach (var word in this.Words)
+            foreach (var w in Words)
             {
-                Console.WriteLine("\t\t\t" + word.Value);
-            }
-        }
-
-        public bool Contains(Word word)
-        {
-            return Words.Contains(word);
-        }
-
-        public bool Contains(string word)
-        {
-            foreach (var w in this.Words)
-            {
-                if (w.Value == word)
-                {
-                    return true;
-                }
+                if (value == w.Value) return true;
             }
             return false;
         }
+
+        
     }
 }
