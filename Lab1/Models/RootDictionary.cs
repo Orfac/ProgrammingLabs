@@ -1,37 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-namespace Lab1
-{
-    sealed class RootDictionary
+namespace Lab1.Models
+{  
+    public sealed class RootDictionary
     {
-        Dictionary<string, RootGroup> RootGroups;
+        private Dictionary<string, RootGroup> rootGroups;
 
         public RootDictionary()
         {
-            RootGroups = new Dictionary<string, RootGroup>();
+            rootGroups = new Dictionary<string, RootGroup>();
         }
 
-        public void Run()
+        public void ConsoleRun()
         {
             Console.Write(">");
             string value;
             while ((value = Console.ReadLine()) != "q")
             {
-                if (value == "") { Console.Write(">"); continue; }
-                if (Contains(value))
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    Console.Write(">");
+                    continue;
+                }
+                if (this.Contains(value))
                 {
                     PrintCognateWords(value);
                 }
                 else
                 {
                     Console.Write("Неизвестное слово. Хотите добавить его в словарь (y/n)?");
-                    string ans = Console.ReadLine();
-                    if (ans.ToLower() == "y")
+                    string answer = Console.ReadLine();
+                    if (answer.ToLower() == "y")
                     {
-                        Word word = new Word(value); 
-                        Add(word);
+                        Word word = WordParser.Parse(value); 
+                        this.Add(word);
                     }
                 }
                 Console.Write(">");
@@ -40,25 +43,16 @@ namespace Lab1
 
         public bool Contains(string word)
         {
-            foreach (var RootGroup in RootGroups)
+            foreach (var RootGroup in rootGroups)
             {
                 if (RootGroup.Value.Contains(word)) return true;
             }
             return false;
         }
 
-        private bool ContainsRoot(string root)
-        {
-            foreach (var RootGroup in RootGroups)
-            {
-                if (RootGroup.Value.Root == root) return true;
-            }
-            return false;
-        }
-
         private string GetRoot(string value)
         {
-            foreach (var RootGroup in RootGroups)
+            foreach (var RootGroup in rootGroups)
             {
                 if (RootGroup.Value.Contains(value)) return RootGroup.Value.Root;
             }
@@ -67,8 +61,11 @@ namespace Lab1
 
         public void Add(Word NewWord)
         {
-            if (!ContainsRoot(NewWord.Root)) RootGroups.Add(NewWord.Root, new RootGroup(NewWord.Root));
-            RootGroups[NewWord.Root].Add(NewWord);
+            if (GetRoot(NewWord.Root) == null)
+            {
+                rootGroups.Add(NewWord.Root, new RootGroup(NewWord.Root));
+            }
+            rootGroups[NewWord.Root].Add(NewWord);
             Console.WriteLine("Слово " + NewWord.Value + " добавлено.");
         }
 
@@ -78,10 +75,7 @@ namespace Lab1
             if (root != null)
             {
                 Console.WriteLine("Известные однокоренные слова: ");
-                foreach (var word in RootGroups[root].Words)
-                {
-                    Console.WriteLine(word.Value.ToString());
-                }
+                ConsoleOutput.Print(rootGroups[root]);
             }
 
         }

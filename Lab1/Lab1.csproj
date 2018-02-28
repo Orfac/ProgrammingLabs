@@ -40,13 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums.cs" />
-    <Compile Include="Morpheme.cs" />
+    <Compile Include="ConsoleInput.cs" />
+    <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="ErrorHandler.cs" />
+    <Compile Include="Models\EMorphemeType.cs" />
+    <Compile Include="Models\Morpheme.cs" />
+    <Compile Include="Models\WordParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RootDictionary.cs" />
-    <Compile Include="RootGroup.cs" />
-    <Compile Include="Word.cs" />
+    <Compile Include="Models\RootDictionary.cs" />
+    <Compile Include="Models\RootGroup.cs" />
+    <Compile Include="Models\Word.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
