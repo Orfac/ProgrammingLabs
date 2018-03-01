@@ -1,5 +1,6 @@
 ﻿namespace Lab1.Models
 {
+    // Used for containg information about morpheme - it's type and value
     public sealed class Morpheme
     {
         public EMorphemeType MorphemeType { get; private set; }

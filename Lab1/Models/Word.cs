@@ -2,6 +2,7 @@
 
 namespace Lab1.Models
 {
+    // Used for contain about word - list of morphemes, value of word and root
     public sealed class Word
     {
         public List<Morpheme> Morphemes { get; set; }

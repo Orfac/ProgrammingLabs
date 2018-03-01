@@ -3,44 +3,16 @@ using System.Collections.Generic;
 
 namespace Lab1.Models
 {  
+    // Class used for containing and handling information about RootGroups
     public sealed class RootDictionary
     {
         private Dictionary<string, RootGroup> rootGroups;
-
         public RootDictionary()
         {
             rootGroups = new Dictionary<string, RootGroup>();
         }
 
-        public void ConsoleRun()
-        {
-            Console.Write(">");
-            string value;
-            while ((value = Console.ReadLine()) != "q")
-            {
-                if (String.IsNullOrWhiteSpace(value))
-                {
-                    Console.Write(">");
-                    continue;
-                }
-                if (this.Contains(value))
-                {
-                    PrintCognateWords(value);
-                }
-                else
-                {
-                    Console.Write("Неизвестное слово. Хотите добавить его в словарь (y/n)?");
-                    string answer = Console.ReadLine();
-                    if (answer.ToLower() == "y")
-                    {
-                        Word word = WordParser.Parse(value); 
-                        this.Add(word);
-                    }
-                }
-                Console.Write(">");
-            }
-        }
-
+        // If word contains in dictionary return true otherwise false
         public bool Contains(string word)
         {
             foreach (var RootGroup in rootGroups)
@@ -50,15 +22,17 @@ namespace Lab1.Models
             return false;
         }
 
-        private string GetRoot(string value)
+        // Get relevant root by word or null if there is no such word in dictionary
+        private string GetRoot(string word)
         {
             foreach (var RootGroup in rootGroups)
             {
-                if (RootGroup.Value.Contains(value)) return RootGroup.Value.Root;
+                if (RootGroup.Value.Contains(word)) return RootGroup.Value.Root;
             }
             return null;
         }
 
+        // Adds new word to relevant root groop and creates RootGroup if it's necessary
         public void Add(Word NewWord)
         {
             if (GetRoot(NewWord.Root) == null)
@@ -69,13 +43,14 @@ namespace Lab1.Models
             Console.WriteLine("Слово " + NewWord.Value + " добавлено.");
         }
 
-        public void PrintCognateWords(string value)
+        // Prints all words from dictionary with same root as word
+        public void PrintCognateWords(string word)
         {
-            string root = GetRoot(value);
+            string root = GetRoot(word);
             if (root != null)
             {
                 Console.WriteLine("Известные однокоренные слова: ");
-                ConsoleOutput.Print(rootGroups[root]);
+                Output.Print(rootGroups[root]);
             }
 
         }

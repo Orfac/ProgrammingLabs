@@ -7,7 +7,8 @@ namespace Lab1
         static void Main(string[] args)
         {
             RootDictionary dictionary = new RootDictionary();
-            dictionary.ConsoleRun();
+            DictionaryRunner runner = new DictionaryRunner();
+            runner.ConsoleRun(dictionary);
         }
     }
 }

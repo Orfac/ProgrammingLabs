@@ -3,7 +3,8 @@ using System;
 
 namespace Lab1
 {
-    public static class ConsoleOutput
+    // Used for print all models printable types
+    public static class Output
     {
         public static void Print(EMorphemeType morphemeType)
         {

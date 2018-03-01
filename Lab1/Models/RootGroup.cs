@@ -2,8 +2,10 @@
 
 namespace Lab1.Models
 {
+    // Class used for containing words with same morpheme Root
     public sealed class RootGroup
     {
+
         public List<Word> Words { get; private set; }
         public string Root { get; private set; }
 
@@ -13,20 +15,32 @@ namespace Lab1.Models
             Root = root;
         }
 
-        public void Add(Word value)
+        /// <summary>
+        /// Used to add new element in right place like iteration
+        /// of insertion sorting where key is Word.Morphemes.Count.
+        /// </summary>
+        /// <param name="newElem">new element</param>
+        public void Add(Word newElem)
         {
-            
-            if (value.Root != Root) return;
+
+            if (newElem.Root != Root)
+            {
+                return;
+            }
+
             for (int i = 0; i < Words.Count; i++)
             {
-                if (value.Morphemes.Count < Words[i].Morphemes.Count)
+                if (newElem.Morphemes.Count < Words[i].Morphemes.Count)
                 {
-                    Words.Insert(i, value);
+                    Words.Insert(i, newElem);
                     return;
                 }
                     
             }
-            Words.Add(value);
+
+            //If there are no place to insert between current elements
+            //word will be added to the end of list.
+            Words.Add(newElem);
             
         }
 

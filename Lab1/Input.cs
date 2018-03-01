@@ -4,20 +4,22 @@ using Lab1.Models;
 
 namespace Lab1
 {
-    public class ConsoleInput 
+    // Input needs for get values like word or morphemes
+    public class Input 
     {
+        // Read one morpheme using type of morpheme
         private static Morpheme ReadSingleMorpheme(EMorphemeType type)
         {
             Morpheme morpheme = null;
-            ConsoleOutput.Print(type);
+            Output.Print(type);
             string value = Console.ReadLine();
             if (type == EMorphemeType.Root)
             {
                 // Root can't be null a-priory
                 while (String.IsNullOrWhiteSpace(value))
                 {
-                    ConsoleOutput.PrintError(EErrorType.EmptyRoot);
-                    ConsoleOutput.Print(type);
+                    Output.PrintError(EErrorType.EmptyRoot);
+                    Output.Print(type);
                     value = Console.ReadLine();
                 }
                 morpheme = new Morpheme(type, value);
@@ -32,6 +34,11 @@ namespace Lab1
             return morpheme;
         }
 
+        /// <summary>
+        /// Used to read one-typed morphemes
+        /// </summary>
+        /// <param name="morphemes"> place for writing</param>
+        /// <param name="type"> morpheme type </param>
         private static void ReadMorphemesInList(List<Morpheme> morphemes, EMorphemeType type)
         {
             Morpheme morpheme;
@@ -50,6 +57,7 @@ namespace Lab1
             }
         }
 
+        // Reads all morphemes in word
         public static void ReadWordMorphemes(Word word)
         {
             ReadMorphemesInList(word.Morphemes, EMorphemeType.Pref);
