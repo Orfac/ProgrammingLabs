@@ -32,10 +32,20 @@ namespace Lab1.Models
             return null;
         }
 
+        // Checks if rootgroup exists with this root
+        private bool IsRootExists(string root)
+        {
+            foreach (var rootGroup in rootGroups)
+            {
+                if (rootGroup.Key == root) return true;
+            }
+            return false;
+        } 
+
         // Adds new word to relevant root groop and creates RootGroup if it's necessary
         public void Add(Word NewWord)
         {
-            if (GetRoot(NewWord.Root) == null)
+            if (!IsRootExists(NewWord.Root))
             {
                 rootGroups.Add(NewWord.Root, new RootGroup(NewWord.Root));
             }

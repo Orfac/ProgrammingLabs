@@ -57,12 +57,15 @@ namespace Lab1
             }
         }
 
-        // Reads all morphemes in word
-        public static void ReadWordMorphemes(Word word)
+        // Reads all morphemes in word and return root
+        public static string ReadWordMorphemes(Word word)
         {
             ReadMorphemesInList(word.Morphemes, EMorphemeType.Pref);
             ReadMorphemesInList(word.Morphemes, EMorphemeType.Root);
+            // gets root by last added morpheme value
+            string root = word.Morphemes[word.Morphemes.Count - 1].Value;
             ReadMorphemesInList(word.Morphemes, EMorphemeType.Suff);
+            return root;
         }
 
     }
