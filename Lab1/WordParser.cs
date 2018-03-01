@@ -12,7 +12,7 @@ namespace Lab1.Models
                 // do this if word didn't pass validation
                 parsedWord.Morphemes.Clear();
                 Input.ReadWordMorphemes(parsedWord);
-            } while (IsComplexWordValid(parsedWord));
+            } while (!IsComplexWordValid(parsedWord));
 
             return parsedWord;
         }
