@@ -1,11 +1,17 @@
 ﻿using System.Text;
 using Lab2.Models;
+
 namespace Lab2
 {
     // Uses for parse word to morphemes
     public class WordParser
     {
-        // Parses word and sets it's root
+
+        /// <summary>
+        /// Parses word and sets it's root
+        /// </summary>
+        /// <param name="value"> word which should be parsed</param>
+        /// <returns> word as class with morphemes and root</returns>
         public static Word Parse(string value)
         {
             Word parsedWord = new Word(value);
@@ -13,7 +19,7 @@ namespace Lab2
             {
                 // do this if word didn't pass validation
                 parsedWord.Morphemes.Clear();
-                parsedWord.Root = Input.ReadWordMorphemes(parsedWord);
+                parsedWord.Root = Input.ConsoleReadWordMorphemes(parsedWord);
             } while (!IsComplexWordValid(parsedWord));
 
             return parsedWord;

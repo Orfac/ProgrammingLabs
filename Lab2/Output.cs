@@ -1,9 +1,15 @@
 ﻿using Lab2.Models;
 using System;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
+using Lab2.Xml;
 
 namespace Lab2
 {
-    // Used for print all models printable types
+    /// <summary>
+    /// Used for print all models printable types or write something in file
+    /// </summary>
     public static class Output
     {
         public static void Print(EMorphemeType morphemeType)
@@ -41,6 +47,19 @@ namespace Lab2
             {
                 Print(word);
             }
+        }
+
+        /// <summary>
+        /// Writes RootDictionary to file
+        /// </summary>
+        /// <param name="path">file where to write</param>
+        /// <param name="rootDictionary">RootDictionary for writing</param>
+        public static void WriteRootDictionaryToXml(string path, RootDictionary rootDictionary)
+        {      
+            using (XmlWriter writer = XmlWriter.Create(new FileStream(path, FileMode.Create)))
+            {
+                RootDictionarySerializer.Serialize(writer, rootDictionary);
+            }      
         }
     }
 }

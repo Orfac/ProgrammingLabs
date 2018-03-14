@@ -1,18 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Lab2.Models
 {
-    // Class used for containing words with same morpheme Root
+    /// <summary>
+    ///  Class used for containing words with same morpheme Root
+    /// </summary>
     public sealed class RootGroup
     {
+        /// <summary>
+        /// List of Words with same root
+        /// </summary>
+        public List<Word> Words { get; set; }
+        /// <summary>
+        /// Root of RootGroup
+        /// </summary>
+        public string Root { get; set; }
 
-        public List<Word> Words { get; private set; }
-        public string Root { get; private set; }
-
+        /// <summary>
+        /// Initialize Words list
+        /// </summary>
+        /// <param name="root"> root </param>
         public RootGroup(string root)
         {
             Words = new List<Word>();
             Root = root;
+        }
+        /// <summary>
+        /// Set RootGroup words to Words from params and sets Root as root
+        /// </summary>
+        /// <param name="words"> list of words</param>
+        /// <param name="root"> root </param>
+        public RootGroup(List<Word> words, string root)
+        {
+            this.Words = words;
+            this.Root = root;
+        }
+
+        /// <summary>
+        /// Initialize Words list
+        /// </summary>
+        public RootGroup()
+        {
+            Words = new List<Word>();
         }
 
         /// <summary>
@@ -49,7 +79,7 @@ namespace Lab2.Models
         {
             foreach (var word in Words)
             {
-                if (value == word.Value) return true;
+                if (String.Equals(word.Value,value)) return true;
             }
             return false;
         }

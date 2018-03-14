@@ -1,17 +1,38 @@
 ﻿namespace Lab2.Models
 {
-    // Used for containg information about morpheme - it's type and value
+    /// <summary>
+    /// Used for containg information about morpheme - it's type and value
+    /// </summary>
     public sealed class Morpheme
     {
-        public EMorphemeType MorphemeType { get; private set; }
-        public string Value { get; private set; }
+        /// <summary>
+        /// Type of Morpheme
+        /// </summary>
+        public EMorphemeType MorphemeType { get; set; }
+        /// <summary>
+        /// Value of Morpheme
+        /// </summary>
+        public string Value { get; set; }
 
+        /// <summary>
+        /// Setting basic fields
+        /// </summary>
+        /// <param name="morphemeType"> morpheme type</param>
+        /// <param name="value"> value </param>
         public Morpheme(EMorphemeType morphemeType, string value)
         {
             MorphemeType = morphemeType;
             Value = value;
         }
 
+        public Morpheme()
+        {
+        }
+
+        /// <summary>
+        /// String representation
+        /// </summary>
+        /// <returns> string morpheme </returns>
         public override string ToString()
         {
             switch (MorphemeType)

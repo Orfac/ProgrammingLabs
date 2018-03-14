@@ -3,12 +3,18 @@ using System;
 
 namespace Lab2
 {
-    // Used for working with dictionary
+    /// <summary>
+    /// Used for working with dictionary
+    /// </summary>
     public class DictionaryRunner
     {
-        // used for run dictionary from console
+        /// <summary>
+        /// used for run dictionary from console
+        /// </summary>
+        /// <param name="rootDictionary"> dictionary to run </param>
         public void ConsoleRun(RootDictionary rootDictionary)
         {
+            
             Console.Write(">");
             string value;
             while ((value = Console.ReadLine()) != "q")
@@ -20,7 +26,9 @@ namespace Lab2
                 }
                 if (rootDictionary.Contains(value))
                 {
-                    rootDictionary.PrintCognateWords(value);
+                    Console.WriteLine("Известные однокоренные слова: ");
+                    string root = rootDictionary.GetRoot(value);
+                    Output.Print(rootDictionary.RootGroups[root]);
                 }
                 else
                 {

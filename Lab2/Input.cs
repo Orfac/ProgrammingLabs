@@ -1,14 +1,20 @@
-﻿using Lab2.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Lab2.Models;
+using System.Xml.Serialization;
+using System.IO;
+using Lab2.Xml;
+using System.Xml;
 
 namespace Lab2
 {
-    // Input needs for get values like word or morphemes
+    /// <summary>
+    /// Input needs for get values like word or morphemes
+    /// </summary>
     public class Input 
     {
-        // Read one morpheme using type of morpheme
-        private static Morpheme ReadSingleMorpheme(EMorphemeType type)
+       
+        private static Morpheme ConsoleReadSingleMorpheme(EMorphemeType type)
         {
             Morpheme morpheme = null;
             Output.Print(type);
@@ -39,10 +45,10 @@ namespace Lab2
         /// </summary>
         /// <param name="morphemes"> place for writing</param>
         /// <param name="type"> morpheme type </param>
-        private static void ReadMorphemesInList(List<Morpheme> morphemes, EMorphemeType type)
+        private static void ConsoleReadMorphemesInList(List<Morpheme> morphemes, EMorphemeType type)
         {
             Morpheme morpheme;
-            morpheme = ReadSingleMorpheme(type);
+            morpheme = ConsoleReadSingleMorpheme(type);
             if (type == EMorphemeType.Root)
             {
                 morphemes.Add(morpheme);
@@ -52,21 +58,37 @@ namespace Lab2
                 while (morpheme != null)
                 {
                     morphemes.Add(morpheme);
-                    morpheme = ReadSingleMorpheme(type);
+                    morpheme = ConsoleReadSingleMorpheme(type);
                 }
             }
         }
 
-        // Reads all morphemes in word and return root
-        public static string ReadWordMorphemes(Word word)
+        /// <summary>
+        /// Reads all morphemes of word
+        /// </summary>
+        /// <param name="word"> word </param>
+        /// <returns> root </returns>
+        public static string ConsoleReadWordMorphemes(Word word)
         {
-            ReadMorphemesInList(word.Morphemes, EMorphemeType.Pref);
-            ReadMorphemesInList(word.Morphemes, EMorphemeType.Root);
+            ConsoleReadMorphemesInList(word.Morphemes, EMorphemeType.Pref);
+            ConsoleReadMorphemesInList(word.Morphemes, EMorphemeType.Root);
             // gets root by last added morpheme value
             string root = word.Morphemes[word.Morphemes.Count - 1].Value;
-            ReadMorphemesInList(word.Morphemes, EMorphemeType.Suff);
+            ConsoleReadMorphemesInList(word.Morphemes, EMorphemeType.Suff);
             return root;
         }
 
+        /// <summary>
+        /// Reads RootDictionary from .xml file
+        /// </summary>
+        /// <param name="path"> path to file</param>
+        /// <returns>readRootDictionary</returns>
+        public static void ReadRootDictionaryFromXml(string path, RootDictionary rootDictionary)
+        {
+            using (XmlReader reader = XmlReader.Create(new FileStream(path, FileMode.Open)))
+            {
+                RootDictionarySerializer.Deserialize(reader, rootDictionary);
+            }
+        }
     }
 }

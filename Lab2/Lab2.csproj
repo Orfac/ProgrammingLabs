@@ -52,6 +52,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordParser.cs" />
+    <Compile Include="Xml\XmlConsoleDialoger.cs" />
+    <Compile Include="Xml\RootDictionarySerializer.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

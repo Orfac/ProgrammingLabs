@@ -10,10 +10,16 @@
        WrongMorphemeSplit 
     }
 
-    // Used to handle errors
+    /// <summary>
+    /// Used to handle errors
+    /// </summary>
     public static class ErrorHandler
     {
-        // Used to return string representation of error
+        /// <summary>
+        /// Used to return string representation of error
+        /// </summary>
+        /// <param name="type"> type of error</param>
+        /// <returns> string representation of error</returns>
         public static string ErrorToString(EErrorType type)
         {
             switch (type)
