@@ -4,10 +4,12 @@ using Lab1.Models;
 
 namespace Lab1
 {
-    // Input needs for get values like word or morphemes
+    /// <summary>
+    /// Input needs for get values like word or morphemes
+    /// </summary>
     public class Input 
     {
-        // Read one morpheme using type of morpheme
+       
         private static Morpheme ReadSingleMorpheme(EMorphemeType type)
         {
             Morpheme morpheme = null;
@@ -57,7 +59,11 @@ namespace Lab1
             }
         }
 
-        // Reads all morphemes in word and return root
+        /// <summary>
+        /// Reads all morphemes of word
+        /// </summary>
+        /// <param name="word"> word </param>
+        /// <returns> root </returns>
         public static string ReadWordMorphemes(Word word)
         {
             ReadMorphemesInList(word.Morphemes, EMorphemeType.Pref);

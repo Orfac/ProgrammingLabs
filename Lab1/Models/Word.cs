@@ -1,14 +1,30 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Lab1.Models
 {
-    // Used for contain about word - list of morphemes, value of word and root
+    /// <summary>
+    /// Used for contain about word - list of morphemes, value of word and root
+    /// </summary>
     public sealed class Word
     {
+        /// <summary>
+        /// Morphemes of word
+        /// </summary>
         public List<Morpheme> Morphemes { get; set; }
+        /// <summary>
+        /// General value
+        /// </summary>
         public string Value { get; private set; }
+        /// <summary>
+        /// Root of word
+        /// </summary>
         public string Root { get; set; }
 
+        /// <summary>
+        /// Initialize List of morphemes
+        /// </summary>
+        /// <param name="value"> general value </param>
         public Word(string value)
         {
             Value = value;
@@ -22,14 +38,18 @@ namespace Lab1.Models
             Root = root;
         }
 
+        /// <summary>
+        /// Returns splited morphemes
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            string result = "";
+            StringBuilder wordBuilder = new StringBuilder();
             foreach (Morpheme morpheme in Morphemes)
             {
-                result += morpheme.ToString();
+                wordBuilder.Append(morpheme.ToString());
             }
-            return result;
+            return wordBuilder.ToString();
         }
 
 

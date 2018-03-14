@@ -3,7 +3,9 @@ using System;
 
 namespace Lab1
 {
-    // Used for print all models printable types
+    /// <summary>
+    /// Used for print all models printable types
+    /// </summary>
     public static class Output
     {
         public static void Print(EMorphemeType morphemeType)
@@ -42,5 +44,6 @@ namespace Lab1
                 Print(word);
             }
         }
+
     }
 }
