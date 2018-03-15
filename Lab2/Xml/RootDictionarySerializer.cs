@@ -1,20 +1,36 @@
 ﻿using Lab2.Models;
-using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace Lab2.Xml
 {
+    /// <summary>
+    /// Used for serializing and deserializing root groups 
+    /// and their root in RootDicitonary
+    /// </summary>
     public class RootGroupAndRoot
     {
-        
+        /// <summary>
+        /// root of RootGroup
+        /// </summary>
         public string root;
+        /// <summary>
+        /// RootGroup
+        /// </summary>
         public RootGroup rootGroup;
 
+        /// <summary>
+        /// Empty constructor which does nothing
+        /// </summary>
         public RootGroupAndRoot()
         {
         }
 
+        /// <summary>
+        /// Sets params
+        /// </summary>
+        /// <param name="root">Root for set</param>
+        /// <param name="rootGroup">RootGroup for set</param>
         public RootGroupAndRoot(string root, RootGroup rootGroup)
         {
             this.root = root;
@@ -22,9 +38,16 @@ namespace Lab2.Xml
         }
 
     }
-
+    /// <summary>
+    /// Serializes and deserializes RootDictionary from or to xml
+    /// </summary>
     public static class RootDictionarySerializer
     {
+        /// <summary>
+        /// Serializes RootDictionary to file by XmlWriter
+        /// </summary>
+        /// <param name="writer">writer from XmlWriter stream</param>
+        /// <param name="rootDictionary"> RootDictionary for writing </param>
         public static void Serialize(XmlWriter writer, RootDictionary rootDictionary)
         {
             XmlSerializer itemSerialize = new XmlSerializer(typeof(RootGroupAndRoot));
@@ -40,6 +63,11 @@ namespace Lab2.Xml
             writer.WriteEndElement();      
         }
 
+        /// <summary>
+        /// Deserializes RootDictionary from file by XmlReader
+        /// </summary>
+        /// <param name="reader">reader from XmlReader stream</param>
+        /// <param name="rootDictionary"> RootDictionary for reading </param>
         public static void Deserialize(XmlReader reader, RootDictionary rootDictionary)
         {
             XmlSerializer itemSerialize = new XmlSerializer(typeof(RootGroupAndRoot));
