@@ -1,6 +1,7 @@
 ﻿using Lab2.Models;
 using System;
 using System.IO;
+using System.Xml;
 
 namespace Lab2.Xml
 {
@@ -13,25 +14,45 @@ namespace Lab2.Xml
         public void StartReadDialog(RootDictionary rootDictionary)
         {
             Console.WriteLine(
-                "Считать из .xml файла?" +
-                "\nВведите символ д для считывания, любой другой для пропуска"
+                "Считать из .xml файла?\n" +
+                "Введите символ д для считывания, любой другой для пропуска"
                  );
             if (IsEndOfDialog())
             {
-                Console.WriteLine();
-                Console.WriteLine("Считывание отменено");
-                return;
-            }
-            Console.WriteLine();
-            string path = GetPathForRead();
-            if (String.IsNullOrEmpty(path))
-            {
-                Console.WriteLine("Считывание отменено");
+                PrintCanselMessage("Считывание");
                 return;
             }
 
-            Input.ReadRootDictionaryFromXml(path,rootDictionary);
-            
+            Console.WriteLine();
+            string path = GetPathForRead();
+
+            if (String.IsNullOrEmpty(path))
+            {
+                PrintCanselMessage("Считывание");
+                return;
+            }
+
+            PrintStartMessage("Считывание");
+            ReadRootDictionaryFromXml(path,rootDictionary);
+            PrintEndMessage("Считывание");
+        }
+
+        /// <summary>
+        /// Reads RootDictionary from .xml file
+        /// </summary>
+        /// <param name="path"> path to file</param>
+        /// <returns>readRootDictionary</returns>
+        private static void ReadRootDictionaryFromXml(string path, RootDictionary rootDictionary)
+        {
+            using (FileStream fileStream = new FileStream(path, FileMode.Open))
+            {
+                using (XmlReader reader = XmlReader.Create(fileStream))
+                {
+                    RootDictionarySerializer.Deserialize(reader, rootDictionary);
+                }
+                Console.WriteLine("закончено");
+            }
+           
         }
 
         /// <summary>
@@ -44,22 +65,56 @@ namespace Lab2.Xml
                 "Записать в .xml файл?" +
                 "\nВведите символ д для записи, любой другой для пропуска"
                     );
+
             if (IsEndOfDialog())
             {
-                Console.WriteLine();
-                Console.WriteLine("Сохранение отменено");
+                PrintCanselMessage("Сохранение");
                 return;
             }
+
             Console.WriteLine();
             string path = GetPathForWrite();
             if (String.IsNullOrEmpty(path))
             {
-                Console.WriteLine("Сохранение отменено");
+                PrintCanselMessage("Сохранение");
                 return;
             }
 
-            Output.WriteRootDictionaryToXml(path, rootDictionary);
+            PrintStartMessage("Сохранение");
+            WriteRootDictionaryToXml(path, rootDictionary);
+            PrintEndMessage("Сохранение");
+        }
 
+        /// <summary>
+        /// Writes RootDictionary to file
+        /// </summary>
+        /// <param name="path">file where to write</param>
+        /// <param name="rootDictionary">RootDictionary for writing</param>
+        private static void WriteRootDictionaryToXml(string path, RootDictionary rootDictionary)
+        {
+            using (FileStream fileStream = new FileStream(path, FileMode.Create))
+            {
+                using (XmlWriter writer = XmlWriter.Create(fileStream))
+                {
+                    RootDictionarySerializer.Serialize(writer, rootDictionary);
+                }
+            }
+            
+        }
+
+        private void PrintCanselMessage(string actionName)
+        {
+            Console.WriteLine("\n" + actionName + " отменено");
+        }
+
+        private void PrintStartMessage(string actionName)
+        {
+            Console.WriteLine(actionName + " начинается");
+        }
+
+        private void PrintEndMessage(string actionName)
+        {
+            Console.WriteLine(actionName + " завершено");
         }
 
         private char GetKey()

@@ -49,17 +49,6 @@ namespace Lab2
             }
         }
 
-        /// <summary>
-        /// Writes RootDictionary to file
-        /// </summary>
-        /// <param name="path">file where to write</param>
-        /// <param name="rootDictionary">RootDictionary for writing</param>
-        public static void WriteRootDictionaryToXml(string path, RootDictionary rootDictionary)
-        {      
-            using (XmlWriter writer = XmlWriter.Create(new FileStream(path, FileMode.Create)))
-            {
-                RootDictionarySerializer.Serialize(writer, rootDictionary);
-            }      
-        }
+       
     }
 }

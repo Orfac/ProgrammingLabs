@@ -78,17 +78,6 @@ namespace Lab2
             return root;
         }
 
-        /// <summary>
-        /// Reads RootDictionary from .xml file
-        /// </summary>
-        /// <param name="path"> path to file</param>
-        /// <returns>readRootDictionary</returns>
-        public static void ReadRootDictionaryFromXml(string path, RootDictionary rootDictionary)
-        {
-            using (XmlReader reader = XmlReader.Create(new FileStream(path, FileMode.Open)))
-            {
-                RootDictionarySerializer.Deserialize(reader, rootDictionary);
-            }
-        }
+        
     }
 }
