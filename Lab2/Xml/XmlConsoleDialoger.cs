@@ -1,7 +1,8 @@
 ﻿using Lab2.Models;
-using System;
+using global::System;
 using System.IO;
 using System.Xml;
+
 
 namespace Lab2.Xml
 {
@@ -46,13 +47,15 @@ namespace Lab2.Xml
         {
             using (FileStream fileStream = new FileStream(path, FileMode.Open))
             {
-                using (XmlReader reader = XmlReader.Create(fileStream))
+                var settings = new XmlReaderSettings
+                {
+                    IgnoreWhitespace = true
+                };
+                using (XmlReader reader = XmlReader.Create(fileStream, settings))
                 {
                     RootDictionarySerializer.Deserialize(reader, rootDictionary);
                 }
-                Console.WriteLine("закончено");
             }
-           
         }
 
         /// <summary>
@@ -94,7 +97,11 @@ namespace Lab2.Xml
         {
             using (FileStream fileStream = new FileStream(path, FileMode.Create))
             {
-                using (XmlWriter writer = XmlWriter.Create(fileStream))
+                var settings = new XmlWriterSettings
+                {
+                    Indent = true
+                };
+                using (XmlWriter writer = XmlWriter.Create(fileStream, settings))
                 {
                     RootDictionarySerializer.Serialize(writer, rootDictionary);
                 }

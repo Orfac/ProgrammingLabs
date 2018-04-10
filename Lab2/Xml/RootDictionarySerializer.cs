@@ -55,7 +55,6 @@ namespace Lab2.Xml
             foreach (string key in rootDictionary.RootGroups.Keys)
             {
                 var item = new RootGroupAndRoot(key, rootDictionary.RootGroups[key]);
-
                 writer.WriteStartElement("RootGroupAndRoot");
                 itemSerialize.Serialize(writer, item);
                 writer.WriteEndElement();
