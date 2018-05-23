@@ -12,7 +12,7 @@ namespace DictionaryLib
         /// </summary>
         /// <param name="value"> word which should be parsed</param>
         /// <returns> word as class with morphemes and root</returns>
-        public static Word Parse(string value)
+        public static Word ConsoleParse(string value)
         {
             Word parsedWord = new Word(value);
             do
@@ -25,8 +25,12 @@ namespace DictionaryLib
             return parsedWord;
         }
 
-        // Checks matching of morphemes and word
-        private static bool IsComplexWordValid(Word word)
+        /// <summary>
+        /// Checks matching of morphemes and word
+        /// </summary>
+        /// <param name="word">word with morphemes</param>
+        /// <returns>true if valid</returns>
+        public static bool IsComplexWordValid(Word word)
         {
             var complexWord = new StringBuilder();
             foreach (Morpheme morpheme in word.Morphemes)

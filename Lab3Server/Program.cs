@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DictionaryLib.Models;
+using DictionaryLib.Xml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +12,20 @@ namespace Lab3Server
     {
         static void Main(string[] args)
         {
-            int MaxThreadsCount = Environment.ProcessorCount * 4;
-            ThreadPool.SetMaxThreads(MaxThreadsCount, MaxThreadsCount);
-            ThreadPool.SetMinThreads(2, 2);
-            new Server(80);
+            var dictionary = new RootDictionary();
+            var dialoger = new XmlConsoleDialoger();
+            dialoger.StartReadDialog(dictionary);
+
+            var server = new Server(5999, 4, dictionary, Encoding.UTF8);
+            try
+            {
+                server.Run();
+            }
+            catch (Exception e )
+            {
+                Console.WriteLine("Error", e.Message);
+            }
+         
         }
     }
 }

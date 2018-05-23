@@ -41,7 +41,7 @@ namespace DictionaryLib.Models
         }
 
         /// <summary>
-        /// hiu
+        /// Returns root of word
         /// </summary>
         /// <param name="word">word</param>
         /// <returns>asdasd</returns>
