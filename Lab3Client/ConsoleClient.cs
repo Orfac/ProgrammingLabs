@@ -33,7 +33,15 @@ namespace Lab3Client
                 Console.WriteLine("Нажмите 'y' для переподключения, другую клавишу для завершения сеанса ");
                 if (GetKey() == 'y')
                 {
-                    _client.Connect();
+                    try
+                    {
+                        _client.Connect();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        isDialogEnd = true;
+                        Console.WriteLine("Не удалось восстановить соединение");
+                    }   
                 }
                 else
                 {
@@ -80,7 +88,7 @@ namespace Lab3Client
                     }
                     else
                     {
-                        isProgrammEnd = ConnectionDialog();
+                        isProgrammEnd = !ConnectionDialog();
                     }
                 }
                 catch (SocketException)
@@ -153,7 +161,7 @@ namespace Lab3Client
                 PrintError();
                 return;
             }
-            Console.WriteLine(words);
+            Console.Write(words);
         }
     }
 }

@@ -17,14 +17,7 @@ namespace Lab3Server
             dialoger.StartReadDialog(dictionary);
 
             var server = new Server(5999, 4, dictionary, Encoding.UTF8);
-            try
-            {
-                server.Run();
-            }
-            catch (Exception e )
-            {
-                Console.WriteLine("Error", e.Message);
-            }
+            server.Run();
          
         }
     }

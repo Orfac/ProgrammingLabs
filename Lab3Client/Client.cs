@@ -45,11 +45,9 @@ namespace Lab3Client
 
         private Response GetResponse(Request request)
         {
-            Console.WriteLine(request.ToString());
             _clientSocket.Send(request.ToString());
             string _response = _clientSocket.Receive();
-            Console.WriteLine(_response);
-            return  Response.Parse(_response); 
+            return Response.Parse(_response);
         }
 
     }

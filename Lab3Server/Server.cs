@@ -35,6 +35,11 @@ namespace Lab3Server
             }
         }
 
+        /// <summary>
+        /// Sending message and getting response  
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public string GetResponse(string message)
         {
             try
@@ -86,7 +91,7 @@ namespace Lab3Server
                 for (int i = 0; i < cognateWords.Count; i++)
                 {
                     wordsToReturn.Append(cognateWords[i]);
-                    wordsToReturn.Append("\n");
+                    wordsToReturn.Append('\n');
                 }
                 return new Response(StatusCode.OK,wordsToReturn.ToString()).ToString();
             }

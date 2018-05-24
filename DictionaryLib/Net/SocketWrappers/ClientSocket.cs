@@ -52,7 +52,8 @@ namespace DictionaryLib.Net.SocketWrappers
 
         public void Reconnect()
         {
-            _socket.Close();
+            _socket.Shutdown(SocketShutdown.Both);
+            _socket.Disconnect(true);
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.Connect();
         }
