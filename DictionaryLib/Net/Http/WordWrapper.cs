@@ -8,7 +8,7 @@ namespace DictionaryLib.Net.Http
 {
     public static class WordWrapper
     {
-        private static char splitter = '&';
+        private static char separator = '&';
 
         public static string GetAttributes(List<Morpheme> morphemes = null)
         {
@@ -21,7 +21,7 @@ namespace DictionaryLib.Net.Http
             AddMorpheme(attributes, morphemes[0]);
             for (int i = 1; i < morphemes.Count; i++)
             {
-                attributes.Append(splitter);
+                attributes.Append(separator);
                 AddMorpheme(attributes, morphemes[i]);
             }
             return attributes.ToString();
@@ -41,43 +41,36 @@ namespace DictionaryLib.Net.Http
             root = null;
             if (body == null) return null;
 
-            string[] typedMorphemes = body.Split(splitter);
             List<Morpheme> morphemes = new List<Morpheme>();
-            for (int i = 0; i < typedMorphemes.Length; i++)
+            if (!body.Contains(separator))
             {
-                Morpheme newMorpheme;
-                newMorpheme = GetMorphemeFromString(typedMorphemes[i], out root);
-                morphemes.Add(newMorpheme);
+                GetMorphemeFromString(morphemes, body, ref root);
             }
+            else
+            {
+                string[] typedMorphemes = body.Split(separator);
+                for (int i = 0; i < typedMorphemes.Length; i++)
+                {
+                    GetMorphemeFromString(morphemes, typedMorphemes[i], ref root);
+                }
+            }
+
             return morphemes;
         }
 
-        private static Morpheme GetMorphemeFromString(string typedMorpheme, out string root)
+        private static void GetMorphemeFromString(List<Morpheme> morphemes, string typedMorpheme, ref string root)
         {
-            root = null;
-            if (typedMorpheme == null)
+            EMorphemeType type = GetTypeFromTypedMorpheme(typedMorpheme[0]);
+            Morpheme newMorpheme = new Morpheme
             {
-                return null;
-            }
-            try
+                Value = typedMorpheme.Substring(1),
+                MorphemeType = type
+            };
+            if (type == EMorphemeType.Root)
             {
-                EMorphemeType type = GetTypeFromTypedMorpheme(typedMorpheme[0]);
-                Morpheme resultMorpheme = new Morpheme
-                {
-                    Value = typedMorpheme.Substring(1),
-                    MorphemeType = type
-                };
-                if (type == EMorphemeType.Root)
-                {
-                    root = resultMorpheme.Value;
-                }
-                return resultMorpheme;
+                root = newMorpheme.Value;
             }
-            catch (Exception)
-            {
-                return null;
-            }
-            
+            morphemes.Add(newMorpheme);
         }
 
         private static EMorphemeType GetTypeFromTypedMorpheme(char type)
@@ -91,7 +84,7 @@ namespace DictionaryLib.Net.Http
                 case 'P':
                     return EMorphemeType.Pref;
                 default:
-                    throw new Exception(message:"Unknown morpheme type");
+                    throw new Exception(message: "Unknown morpheme type");
             }
         }
 

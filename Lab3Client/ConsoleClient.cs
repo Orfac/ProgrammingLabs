@@ -24,9 +24,30 @@ namespace Lab3Client
             _client = new Client(host, port, Encoding.UTF8);
         }
 
-        public void Connect()
+        private bool ConnectionDialog()
         {
-            _client.Connect();
+            bool isDialogEnd = false;
+            do
+            {
+                Console.WriteLine("Не получилось связаться с сервером.");
+                Console.WriteLine("Нажмите 'y' для переподключения, другую клавишу для завершения сеанса ");
+                if (GetKey() == 'y')
+                {
+                    _client.Connect();
+                }
+                else
+                {
+                    isDialogEnd = true;
+                }
+                Console.WriteLine();
+
+            } while ((!isDialogEnd) && (!_client.Connected));
+            return _client.Connected;
+        }
+
+        private char GetKey()
+        {
+            return Console.ReadKey().KeyChar;
         }
 
         public void Run()
@@ -39,12 +60,14 @@ namespace Lab3Client
             {
                 Console.WriteLine("Не получилось связаться с сервером");
             }
-            string value;
+            string word = null;
             Console.WriteLine("Вводите слова для поиска или добавления в словарь.\nВведите q для выхода.");
             Console.Write(">");
-            while ((value = Console.ReadLine()) != "q")
+            bool isProgrammEnd = false;
+            
+            while ((!isProgrammEnd) && (word = Console.ReadLine()) != "q")
             {
-                if (String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrWhiteSpace(word))
                 {
                     Console.Write(">");
                     continue;
@@ -53,20 +76,11 @@ namespace Lab3Client
                 {
                     if (_client.Connected)
                     {
-                        HandleWord(value);
+                        HandleWord(word);
                     }
                     else
                     {
-                        Console.WriteLine("Пытаемся восстановить соединение");
-                        _client.Connect();
-                        if (_client.Connected)
-                        {
-                            Console.WriteLine("Соединение восстановлено");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Не удалось восстановить соединение");
-                        }
+                        isProgrammEnd = ConnectionDialog();
                     }
                 }
                 catch (SocketException)

@@ -66,6 +66,9 @@ namespace DictionaryLib.Models
         /// <param name="NewWord"> new word</param>
         public void Add(Word NewWord)
         {
+            Console.WriteLine(NewWord.Root);
+            Console.WriteLine(NewWord.Value);
+            Console.WriteLine(NewWord);
             if (!IsRootExists(NewWord.Root))
             {
                 RootGroups.Add(NewWord.Root, new RootGroup(NewWord.Root));

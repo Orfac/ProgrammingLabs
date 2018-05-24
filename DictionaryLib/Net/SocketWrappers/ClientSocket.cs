@@ -49,7 +49,15 @@ namespace DictionaryLib.Net.SocketWrappers
         {
             _socket.Connect(_host, _port);
         }
-        
+
+        public void Reconnect()
+        {
+            _socket.Close();
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.Connect();
+        }
+
+
         /// <summary>
         /// Wrapper over socket send  and encoding
         /// </summary>

@@ -42,8 +42,8 @@ namespace DictionaryLib.Net.SocketWrappers
                 try
                 {
                     var client = _socket.Accept();
-                    if (client == null) continue;
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(ClientThread), client);
+                    if (client != null) 
+                        ThreadPool.QueueUserWorkItem(ClientThread, client);
                 }
                 catch (Exception)
                 {
@@ -55,10 +55,6 @@ namespace DictionaryLib.Net.SocketWrappers
 
         private void ClientThread(object newClientObject)
         {
-            if (newClientObject is null)
-            {
-                return;
-            }
             var newClient = newClientObject as Socket;
             var clientSocket = new ClientSocket(newClient, encoding);
             bool IsListening = true;

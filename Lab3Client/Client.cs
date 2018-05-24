@@ -14,17 +14,20 @@ namespace Lab3Client
         public bool Connected => _clientSocket.Connected;
 
         private ClientSocket _clientSocket;
-        private string _host;
 
         public Client(string host, int port, Encoding encoding)
         {
             _clientSocket = new ClientSocket(host, port, encoding);
-            _host = host;
         }
 
         public void Connect()
         {
             _clientSocket.Connect();
+        }
+
+        public void Reconnect()
+        {
+            _clientSocket.Reconnect();
         }
 
         public Response SeekWord(string wordToFind)
