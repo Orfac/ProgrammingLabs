@@ -29,7 +29,7 @@ namespace DictionaryLib.Net.Http
                 body = ParseResponseBody(response);
             }
             return new Response(statusCode, body);
-            
+
         }
 
         private static StatusCode ParseStatusCode(string response)
@@ -49,15 +49,8 @@ namespace DictionaryLib.Net.Http
 
         private static string ParseResponseBody(string response)
         {
-            try
-            {
-                int bodyStartIndex = response.IndexOf("\n\n");
-                return response.Substring(bodyStartIndex);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            int bodyStartIndex = response.IndexOf("\n\n") + 2;
+            return response.Substring(bodyStartIndex);
         }
 
         public override string ToString()

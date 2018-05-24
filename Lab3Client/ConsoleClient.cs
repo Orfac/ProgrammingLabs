@@ -57,7 +57,16 @@ namespace Lab3Client
                     }
                     else
                     {
+                        Console.WriteLine("Пытаемся восстановить соединение");
                         _client.Connect();
+                        if (_client.Connected)
+                        {
+                            Console.WriteLine("Соединение восстановлено");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Не удалось восстановить соединение");
+                        }
                     }
                 }
                 catch (SocketException)
@@ -96,7 +105,7 @@ namespace Lab3Client
 
         private void AskForAdd(string value)
         {
-            Console.WriteLine("Такого слова не существует, хотите добавить в словарь?y/n");
+            Console.Write("Такого слова не существует, хотите добавить в словарь?y/n:");
             string answer = Console.ReadLine();
             if (answer.ToLower() != "y")
             {

@@ -56,8 +56,8 @@ namespace DictionaryLib.Net.SocketWrappers
         /// <param name="message"></param>
         public void Send(string message)
         {
-            int messageLength = message.Length;
             byte[] byteMessage = _encoding.GetBytes(message);
+            int messageLength = byteMessage.Length;
             int readIndex = 0;
             do
             {

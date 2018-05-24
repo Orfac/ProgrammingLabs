@@ -10,13 +10,13 @@ namespace DictionaryLib.Net.SocketWrappers
 {
     public class ServerSocket
     {
-        private Func<string,string> _getMessage;
+        private Func<string, string> _getMessage;
 
         private Socket _socket;
         public readonly int backlog;
         public readonly Encoding encoding;
 
-        public ServerSocket(int port, int backlog, Func<string,string> getMessage, Encoding encoding)
+        public ServerSocket(int port, int backlog, Func<string, string> getMessage, Encoding encoding)
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             var iPEndPoint = new IPEndPoint(IPAddress.Any, port);
@@ -36,13 +36,14 @@ namespace DictionaryLib.Net.SocketWrappers
             {
                 throw;
             }
-           
+
             while (true)
             {
                 try
                 {
                     var client = _socket.Accept();
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(ClientThread), client);   
+                    if (client == null) continue;
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ClientThread), client);
                 }
                 catch (Exception)
                 {
@@ -60,10 +61,21 @@ namespace DictionaryLib.Net.SocketWrappers
             }
             var newClient = newClientObject as Socket;
             var clientSocket = new ClientSocket(newClient, encoding);
-
-            var receivedData = clientSocket.Receive();
-            var dataToSend = _getMessage(receivedData);
-            clientSocket.Send(dataToSend);
+            bool IsListening = true;
+            while (IsListening)
+            {
+                try
+                {
+                    var receivedData = clientSocket.Receive();
+                    var dataToSend = _getMessage(receivedData);
+                    clientSocket.Send(dataToSend);
+                }
+                catch (Exception)
+                {
+                    IsListening = false;
+                }
+                
+            }
         }
     }
 }

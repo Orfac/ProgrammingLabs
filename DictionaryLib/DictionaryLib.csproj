@@ -52,8 +52,6 @@
     <Compile Include="Net\Http\StatusCode.cs" />
     <Compile Include="Net\Http\WordWrapper.cs" />
     <Compile Include="Net\SocketWrappers\ClientSocket.cs" />
-    <Compile Include="Net\Http\HttpCreator.cs" />
-    <Compile Include="Net\Http\HttpParser.cs" />
     <Compile Include="Net\SocketWrappers\ServerSocket.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

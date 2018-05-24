@@ -30,7 +30,9 @@ namespace DictionaryLib.Net.Http
         public static void SetMorphemes(Word word, string body)
         {
             if (body == null) return;
-            
+
+            word.Morphemes = GetMorphemes(out string root, body);
+            word.Root = root;
 
         }
 

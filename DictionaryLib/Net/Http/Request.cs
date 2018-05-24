@@ -27,9 +27,9 @@ namespace DictionaryLib.Net.Http
             var type = ParseRequestType(request);
             string value = null;
             string attributes = null;
-            if (type != RequestType.Undefined)
+            if (type == RequestType.Undefined)
             {
-                return new Request(type, value,attributes);
+                return null;
             }
             value = ParseValueFromLink(request);
             attributes = ParseRequestBody(request);
@@ -91,7 +91,7 @@ namespace DictionaryLib.Net.Http
         {
             try
             {
-                int bodyStartIndex = request.IndexOf("\n\n");
+                int bodyStartIndex = request.IndexOf("\n\n") + 2;
                 return request.Substring(bodyStartIndex);
             }
             catch (Exception)
