@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using DictionaryLib;
 using DictionaryLib.Models;
 using DictionaryLib.Net;
@@ -15,6 +16,7 @@ namespace Lab3Server
     {
         private ServerSocket _socketServer;
         private RootDictionary _rootDictionary;
+        private Object thisLock = new Object();
 
         public Server(int port, int backlog, RootDictionary rootDictionary, Encoding encoding)
         {
@@ -24,15 +26,7 @@ namespace Lab3Server
 
         public void Run()
         {
-            try
-            {
-                _socketServer.Run();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            _socketServer.Run();
         }
 
         /// <summary>
@@ -55,7 +49,7 @@ namespace Lab3Server
                         return new Response(StatusCode.BadRequest).ToString();
                 }
             }
-            catch (Exception)
+            catch (InvalidOperationException ex)
             {
                 return new Response(StatusCode.BadRequest).ToString();
             }
@@ -72,10 +66,17 @@ namespace Lab3Server
             }
 
             WordWrapper.SetMorphemes(newWord, request.Attributes);
-            if (WordParser.IsComplexWordValid(newWord))
+            lock (thisLock)
             {
-                _rootDictionary.Add(newWord);
-                return new Response(StatusCode.Created).ToString();
+                if (_rootDictionary.Contains(newWord.Value))
+                    return new Response(StatusCode.Сonflict).ToString();
+
+                if (WordParser.IsComplexWordValid(newWord))
+                {
+                    _rootDictionary.Add(newWord);
+                    return new Response(StatusCode.Created).ToString();
+
+                }
             }
             return new Response(StatusCode.BadRequest).ToString();
         }
@@ -93,7 +94,7 @@ namespace Lab3Server
                     wordsToReturn.Append(cognateWords[i]);
                     wordsToReturn.Append('\n');
                 }
-                return new Response(StatusCode.OK,wordsToReturn.ToString()).ToString();
+                return new Response(StatusCode.OK, wordsToReturn.ToString()).ToString();
             }
             else
             {

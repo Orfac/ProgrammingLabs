@@ -2,7 +2,6 @@
 {
     public enum StatusCode
     {
-        Undefined,
         OK=200,
         Created=201,
         BadRequest=400,

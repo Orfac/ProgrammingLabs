@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace Lab3Client
 {
@@ -15,6 +16,8 @@ namespace Lab3Client
         private int port;
         private Encoding encoding;
         private Client _client;
+        private Thread animation;
+        private bool animationEnd;
 
         public ConsoleClient(string host, int port, Encoding encoding)
         {
@@ -22,6 +25,7 @@ namespace Lab3Client
             this.port = port;
             this.encoding = encoding;
             _client = new Client(host, port, Encoding.UTF8);
+            
         }
 
         private bool ConnectionDialog()
@@ -105,7 +109,14 @@ namespace Lab3Client
 
         private void HandleWord(string value)
         {
+            animationEnd = false;
+            animation = new Thread(LoadingAnimation);
+            animation.Start();
+            Thread.Sleep(100);
             Response response = _client.SeekWord(value);
+            animationEnd = true;
+
+            Console.Write('\n');
             switch (response.StatusCode)
             {
                 case StatusCode.OK:
@@ -139,7 +150,14 @@ namespace Lab3Client
 
         private void HandleNewWord(Word newWord)
         {
+            animationEnd = false;
+            animation = new Thread(LoadingAnimation);
+            animation.Start();
+            Thread.Sleep(100);
             Response response = _client.AddWord(newWord);
+            animationEnd = true;
+            Console.Write('\n');
+            
             switch (response.StatusCode)
             {
                 case StatusCode.Created:
@@ -150,7 +168,7 @@ namespace Lab3Client
                     break;
                 default:
                     PrintError();
-                    break;
+                    break;  
             }
         }
 
@@ -162,6 +180,15 @@ namespace Lab3Client
                 return;
             }
             Console.Write(words);
+        }
+
+        private void LoadingAnimation()
+        {
+            while (!animationEnd)
+            {
+                Console.Write('.');
+                Thread.Sleep(50);
+            }
         }
     }
 }

@@ -84,7 +84,7 @@ namespace DictionaryLib.Net.Http
                 case 'P':
                     return EMorphemeType.Pref;
                 default:
-                    throw new Exception(message: "Unknown morpheme type");
+                    throw new InvalidOperationException();
             }
         }
 
@@ -104,7 +104,7 @@ namespace DictionaryLib.Net.Http
                 case EMorphemeType.Suff:
                     return 'S';
                 default:
-                    throw new Exception();
+                    throw new InvalidOperationException();
             }
         }
 

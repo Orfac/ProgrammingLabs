@@ -3,7 +3,6 @@
     public enum RequestType
     {
         POST,
-        GET,
-        Undefined
+        GET
     }
 }

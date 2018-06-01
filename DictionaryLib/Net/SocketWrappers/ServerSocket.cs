@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -32,9 +30,9 @@ namespace DictionaryLib.Net.SocketWrappers
             {
                 _socket.Listen(backlog);
             }
-            catch (Exception)
+            catch (SocketException)
             {
-                throw;
+                return;
             }
 
             while (true)
@@ -45,7 +43,7 @@ namespace DictionaryLib.Net.SocketWrappers
                     if (client != null) 
                         ThreadPool.QueueUserWorkItem(ClientThread, client);
                 }
-                catch (Exception)
+                catch (SocketException)
                 {
                     continue;
                 }
@@ -66,7 +64,7 @@ namespace DictionaryLib.Net.SocketWrappers
                     var dataToSend = _getMessage(receivedData);
                     clientSocket.Send(dataToSend);
                 }
-                catch (Exception)
+                catch (SocketException)
                 {
                     IsListening = false;
                 }

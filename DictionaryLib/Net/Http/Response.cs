@@ -21,13 +21,9 @@ namespace DictionaryLib.Net.Http
 
         public static Response Parse(string response)
         {
-            StatusCode statusCode = StatusCode.Undefined;
+            StatusCode statusCode = ParseStatusCode(response);
             string body = null;
-            statusCode = ParseStatusCode(response);
-            if (statusCode != StatusCode.Undefined)
-            {
-                body = ParseResponseBody(response);
-            }
+            body = ParseResponseBody(response);
             return new Response(statusCode, body);
 
         }
@@ -41,9 +37,9 @@ namespace DictionaryLib.Net.Http
                 string statusCode = response.Substring(codeStartIndex, statusCodeLength);
                 return (StatusCode)Convert.ToInt32(statusCode);
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
-                return StatusCode.Undefined;
+                throw;
             }
         }
 
@@ -91,8 +87,6 @@ namespace DictionaryLib.Net.Http
         {
             switch (code)
             {
-                case StatusCode.Undefined:
-                    return null;
                 case StatusCode.OK:
                     return ("200 OK");
                 case StatusCode.Created:
@@ -104,7 +98,7 @@ namespace DictionaryLib.Net.Http
                 case StatusCode.Сonflict:
                     return ("409 Conflict");
                 default:
-                    throw new Exception();
+                    throw new InvalidOperationException();
             }
         }
     }

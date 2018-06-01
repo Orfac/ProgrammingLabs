@@ -27,10 +27,6 @@ namespace DictionaryLib.Net.Http
             var type = ParseRequestType(request);
             string value = null;
             string attributes = null;
-            if (type == RequestType.Undefined)
-            {
-                return null;
-            }
             value = ParseValueFromLink(request);
             attributes = ParseRequestBody(request);
             return new Request(type, value, attributes);
@@ -43,7 +39,7 @@ namespace DictionaryLib.Net.Http
             if (_attributes != null)
             {
                 request.Append(_attributes);
-            }  
+            }
             return request.ToString();
         }
 
@@ -65,9 +61,9 @@ namespace DictionaryLib.Net.Http
                 string type = request.Substring(0, typeEndIndex);
                 return StringToType(type);
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
-                return RequestType.Undefined;
+                throw;
             }
 
         }
@@ -81,7 +77,7 @@ namespace DictionaryLib.Net.Http
                 int length = wordEndIndex - wordStartIndex;
                 return request.Substring(wordStartIndex, length);
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
                 return null;
             }
@@ -89,15 +85,12 @@ namespace DictionaryLib.Net.Http
 
         private static string ParseRequestBody(string request)
         {
-            try
+            int bodyStartIndex = request.IndexOf("\n\n") + 2;
+            if (bodyStartIndex >= 2)
             {
-                int bodyStartIndex = request.IndexOf("\n\n") + 2;
                 return request.Substring(bodyStartIndex);
             }
-            catch (Exception)
-            {
-                return null;
-            }
+            return null;
         }
 
         private static RequestType StringToType(string type)
@@ -109,7 +102,7 @@ namespace DictionaryLib.Net.Http
                 case "POST":
                     return RequestType.POST;
                 default:
-                    return RequestType.Undefined;
+                    throw new InvalidOperationException();
             }
         }
 
@@ -121,10 +114,8 @@ namespace DictionaryLib.Net.Http
                     return "POST";
                 case RequestType.GET:
                     return "GET";
-                case RequestType.Undefined:
-                    return null;
                 default:
-                    throw new Exception();
+                    throw new InvalidOperationException();
             }
         }
     }
