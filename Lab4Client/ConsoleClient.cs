@@ -1,12 +1,8 @@
 ﻿using DictionaryLib;
 using DictionaryLib.Models;
-using DictionaryLib.Net.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading;
+using DictionaryLib.Services;
 
 namespace Lab4Client
 {
@@ -47,6 +43,7 @@ namespace Lab4Client
             animation = new Thread(LoadingAnimation);
             animation.Start();
             Thread.Sleep(100);
+            
             string response = channel.FindWord(value);
             animationEnd = true;
             Console.Write('\n');

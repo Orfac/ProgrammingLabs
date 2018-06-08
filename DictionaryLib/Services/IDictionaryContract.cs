@@ -1,7 +1,7 @@
 ﻿using DictionaryLib.Models;
 using System.ServiceModel;
 
-namespace Lab4Server
+namespace DictionaryLib.Services
 {
     [ServiceContract]
     public interface IDictionaryContract

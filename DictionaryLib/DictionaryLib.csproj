@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,7 @@
     <Compile Include="Net\SocketWrappers\ServerSocket.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IDictionaryContract.cs" />
     <Compile Include="WordParser.cs" />
     <Compile Include="Xml\RootDictionarySerializer.cs" />
     <Compile Include="Xml\XmlConsoleDialoger.cs" />

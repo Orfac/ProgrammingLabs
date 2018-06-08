@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DictionaryLib.Services;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lab4Client
 {
@@ -16,8 +12,8 @@ namespace Lab4Client
                 (new NetNamedPipeBinding(),
                 new EndpointAddress("net.pipe://localhost/IDictionaryContract")
                 );
-            IDictionaryContract channel = factory.CreateChannel();
 
+            IDictionaryContract channel = factory.CreateChannel();
             var consoleClient = new ConsoleClient(channel);
             consoleClient.Run();
         }

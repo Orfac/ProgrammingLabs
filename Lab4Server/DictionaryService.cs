@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.Text;
 using DictionaryLib;
 using DictionaryLib.Models;
+using DictionaryLib.Services;
 
 namespace Lab4Server
 {
@@ -13,7 +14,7 @@ namespace Lab4Server
   )]
     public class DictionaryService : IDictionaryContract
     {
-        RootDictionary _rootDictionary;
+        private RootDictionary _rootDictionary;
         private Object thisLock = new Object();
 
         public DictionaryService()
